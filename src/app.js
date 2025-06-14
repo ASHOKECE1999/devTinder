@@ -4,8 +4,9 @@ const app = express();
 
 //this will only Handle GET call to /users
 
-app.get("/user", (req, res) => {
-  //   res.send("Hey this is for User");
+app.get("/user/:firstName/:lastName", (req, res) => {
+  console.log(req.query);
+  console.log(req.params);
   res.send({
     firstName: "Ashok Adivappa Gari",
     lastName: "Adivappa Gari",

@@ -6,3 +6,7 @@
 - created remote repo github
 - push code to all origin
 - order of the routes is matter
+- explored routing
+- explored optional routing and also using ?,+, () and regx expressions
+- reading the query params
+- dynamic routing
