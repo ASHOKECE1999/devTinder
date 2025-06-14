@@ -3,3 +3,6 @@
 - write handlers for /home / paths
 - initialized git repository
 - created gitignore file
+- created remote repo github
+- push code to all origin
+- order of the routes is matter
