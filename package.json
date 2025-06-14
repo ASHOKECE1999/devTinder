@@ -1,0 +1,20 @@
+{
+  "name": "devtinder-backend",
+  "version": "1.0.0",
+  "description": "tinder for devs",
+  "main": "index.js",
+  "scripts": {
+    "dev":"nodemon src/app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "MongoDB"
+  ],
+  "author": "AshokAdivappaGari",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}

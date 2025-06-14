@@ -1,0 +1,5 @@
+- created express server with port 3000
+- create dummy paths for testing
+- write handlers for /home / paths
+- initialized git repository
+- created gitignore file
