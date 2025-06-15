@@ -17,3 +17,4 @@
 - create /signup api to add userData t0 database
 - push some documents to dataBase
 - error handling using try/catch
+- added express.json( ) middleware to collect all the request in JSON format
