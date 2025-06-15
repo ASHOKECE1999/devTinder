@@ -10,3 +10,10 @@
 - explored optional routing and also using ?,+, () and regx expressions
 - reading the query params
 - dynamic routing
+- created a fre cluster
+- connected with database with help of mongoose(MongoDB atlas)
+- installed mongoose
+- created userSchema & userModel
+- create /signup api to add userData t0 database
+- push some documents to dataBase
+- error handling using try/catch
