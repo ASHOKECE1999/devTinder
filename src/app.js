@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const userAuth = require("./middlewares/auth");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const connectDB = require("./config/database");
@@ -45,7 +46,8 @@ app.post("/login", async (req, res) => {
     if (isExit) {
       const jwtTokenGeneration = jwt.sign(
         { _id: getUserDetails._id },
-        "HeyAshokKumar@123"
+        "HeyAshokKumar@123",
+        { expiresIn: "0d" }
       );
       const token = res.cookie("jwtToken", jwtTokenGeneration);
       res.send("Logged In SuccessFully");
@@ -126,27 +128,18 @@ app.delete("/user", async (req, res) => {
   }
 });
 
-app.post("/profile", async (req, res) => {
+app.post("/profile", userAuth, async (req, res) => {
   console.log(req.cookies);
   try {
-    const { jwtToken } = req.cookies;
-    const validateJwtToken = jwt.verify(jwtToken, "HeyAshokKumar@123");
-    console.log(validateJwtToken);
-    if (!validateJwtToken) {
-      throw new Error("Invalid Token");
-    }
-    const userid = validateJwtToken._id;
-    console.log(userid, "USERID");
-    const userExist = await User.findOne({ _id: userid });
-    console.log(userExist, "USerExit");
-    if (!userExist) {
-      throw new Error("User doesn't Exit");
-    }
-    console.log(validateJwtToken);
+    const userExist = req.user;
     res.send(userExist);
   } catch (error) {
     res.status(400).send("Bad Request");
   }
+});
+
+app.post("/sendConnectionRequest", userAuth, (req, res) => {
+  res.send("Here is your User Connection Details");
 });
 
 connectDB()
