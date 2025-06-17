@@ -1,22 +1,25 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const connectDB = require("./config/database");
 const User = require("./model/user");
 const validateSignUpData = require("./utils/validate");
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
   //validate the request data
   // encrypt the password
   try {
+    const { firstName, lastName, password, emailId, skills, age, gender } =
+      req.body;
     validateSignUpData(req);
-    console.log(req.body);
-    const password = req.body.password;
-    const hashedPassword = bcrypt.hash(password, 20);
+    const hashedPassword = await bcrypt.hash(password, 4);
     const userObj = {
-      fistName,
+      firstName,
       lastName,
       emailId,
       password: hashedPassword,
@@ -29,6 +32,28 @@ app.post("/signup", async (req, res) => {
     res.send("userAddedSuccessFully");
   } catch (err) {
     res.status(400).send("Bad Request on Saving User Data" + err.message);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { emailId, password } = req.body;
+  console.log("we got hiy");
+  try {
+    const getUserDetails = await User.findOne({ emailId: emailId });
+    const isExit = await bcrypt.compare(password, getUserDetails.password);
+    console.log(isExit);
+    if (isExit) {
+      const jwtTokenGeneration = jwt.sign(
+        { _id: getUserDetails._id },
+        "HeyAshokKumar@123"
+      );
+      const token = res.cookie("jwtToken", jwtTokenGeneration);
+      res.send("Logged In SuccessFully");
+    } else {
+      res.status(400).send("Please Enter Valid Password");
+    }
+  } catch (error) {
+    res.send(error);
   }
 });
 
@@ -98,6 +123,29 @@ app.delete("/user", async (req, res) => {
     res.send("User Deleted SuccessFully");
   } catch (err) {
     res.status(400).send("Bad Request on Saving User Data" + err.message);
+  }
+});
+
+app.post("/profile", async (req, res) => {
+  console.log(req.cookies);
+  try {
+    const { jwtToken } = req.cookies;
+    const validateJwtToken = jwt.verify(jwtToken, "HeyAshokKumar@123");
+    console.log(validateJwtToken);
+    if (!validateJwtToken) {
+      throw new Error("Invalid Token");
+    }
+    const userid = validateJwtToken._id;
+    console.log(userid, "USERID");
+    const userExist = await User.findOne({ _id: userid });
+    console.log(userExist, "USerExit");
+    if (!userExist) {
+      throw new Error("User doesn't Exit");
+    }
+    console.log(validateJwtToken);
+    res.send(userExist);
+  } catch (error) {
+    res.status(400).send("Bad Request");
   }
 });
 
