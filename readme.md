@@ -21,3 +21,5 @@
 - explores schema types and data validations
 - just make an condition not to update and email and userID
 - validate signUp api, installed bcrypt package and hashed password
+- created cookies
+- verified cookies by using jsonwebtoken
