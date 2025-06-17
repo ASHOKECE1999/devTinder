@@ -1,15 +1,30 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const connectDB = require("./config/database");
 const User = require("./model/user");
+const validateSignUpData = require("./utils/validate");
 
 const app = express();
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
-  const userObj = req.body;
-  const user = new User(userObj);
+  //validate the request data
+  // encrypt the password
   try {
+    validateSignUpData(req);
+    console.log(req.body);
+    const password = req.body.password;
+    const hashedPassword = bcrypt.hash(password, 20);
+    const userObj = {
+      fistName,
+      lastName,
+      emailId,
+      password: hashedPassword,
+      age,
+      gender,
+      skills,
+    };
+    const user = new User(userObj);
     await user.save();
     res.send("userAddedSuccessFully");
   } catch (err) {
@@ -20,7 +35,7 @@ app.post("/signup", async (req, res) => {
 app.get("/user", async (req, res) => {
   console.log(req.body);
   try {
-    const userData = await User.findOne({ firstName: req.body.firstName });
+    const userData = await User.findById({ _id: req.body.userId });
     if (userData.length !== 0) {
       res.send(userData);
     } else {
@@ -44,15 +59,42 @@ app.get("/feed", async (req, res) => {
   }
 });
 
-app.put("/update", (req, res) => {
-  const userId = req.body.Email;
+app.patch("/user", async (req, res) => {
+  const userId = req.body.userId;
+  console.log();
+
+  try {
+    const isUpdateEnable = Object.keys(req.body).includes("emailId");
+    if (isUpdateEnable) {
+      throw new Error("Hey Update Not Enabled");
+    }
+    const user = await User.findByIdAndUpdate({ _id: userId }, req.body, {
+      returnDocument: "before",
+      runValidators: true,
+    });
+    console.log(user);
+    res.json({
+      message: "User Updated Successfully",
+      user: user,
+    });
+  } catch (err) {
+    res.status(400).send("Bad Request on Saving User Data" + err.message);
+  }
 });
 
-app.delete("/delete", async (req, res) => {
-  const userId = req.body.userId;
+app.delete("/user", async (req, res) => {
+  const userId = req?.body?.userId;
   console.log(userId);
   try {
-    const user = await User.findByIdAndDelete(userId);
+    if (userId === undefined) {
+      throw new Error("Hey invalid ID");
+    }
+    const user = await User.deleteOne({ _id: userId });
+    console.log(user);
+    if (user.deletedCount < 1) {
+      throw new Error("Hey invalid ID");
+    }
+    console.log(user);
     res.send("User Deleted SuccessFully");
   } catch (err) {
     res.status(400).send("Bad Request on Saving User Data" + err.message);

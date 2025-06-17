@@ -18,3 +18,6 @@
 - push some documents to dataBase
 - error handling using try/catch
 - added express.json( ) middleware to collect all the request in JSON format
+- explores schema types and data validations
+- just make an condition not to update and email and userID
+- validate signUp api, installed bcrypt package and hashed password
