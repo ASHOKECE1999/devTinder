@@ -4,6 +4,7 @@ const User = require("../model/user");
 const userAuth = async (req, res, next) => {
   try {
     const { jwtToken } = req.cookies;
+    console.log(jwtToken, "isItHere");
     const validateJwtToken = jwt.verify(jwtToken, "HeyAshokKumar@123");
     console.log(validateJwtToken);
     if (!validateJwtToken) {

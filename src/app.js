@@ -37,18 +37,20 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { emailId, password } = req.body;
   console.log("we got hiy");
   try {
+    const { emailId, password } = req.body;
     const getUserDetails = await User.findOne({ emailId: emailId });
-    const isExit = await bcrypt.compare(password, getUserDetails.password);
+    console.log(getUserDetails);
+    if (!getUserDetails) {
+      throw new Error("Invalid Credentials");
+    }
+    const isExit = await getUserDetails.validateHashedPassword(password);
+
     console.log(isExit);
     if (isExit) {
-      const jwtTokenGeneration = jwt.sign(
-        { _id: getUserDetails._id },
-        "HeyAshokKumar@123",
-        { expiresIn: "0d" }
-      );
+      const jwtTokenGeneration = await getUserDetails.getJWTToken();
+      console.log(jwtTokenGeneration, "isItPrintHere");
       const token = res.cookie("jwtToken", jwtTokenGeneration);
       res.send("Logged In SuccessFully");
     } else {
