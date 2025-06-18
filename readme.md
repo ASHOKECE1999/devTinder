@@ -23,3 +23,6 @@
 - validate signUp api, installed bcrypt package and hashed password
 - created cookies
 - verified cookies by using jsonwebtoken
+
+- implemented different routes with expressRouter
+- grouped the routes based on requirement

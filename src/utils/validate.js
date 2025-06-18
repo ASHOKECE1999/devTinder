@@ -6,4 +6,30 @@ const validateSignUpData = (req) => {
     throw new Error("Please Enter valid User Name");
   }
 };
-module.exports = validateSignUpData;
+
+const validateEditInfoData = (req) => {
+  const allowedDataList = ["firstName", "lastName", "age", "gender", "skills"];
+  const isAllowed = Object.keys(req.body).every((key) =>
+    allowedDataList.includes(key)
+  );
+  if (!isAllowed) {
+    throw new Error("Invalid Edit Request ");
+  }
+  return isAllowed;
+};
+
+const validatePasswordInfoData = (req) => {
+  const allowedDataList = ["emailId", "password"];
+  const isAllowed = Object.keys(req.body).every((key) =>
+    allowedDataList.includes(key)
+  );
+  if (!isAllowed) {
+    throw new Error("Invalid Edit Request ");
+  }
+  return isAllowed;
+};
+module.exports = {
+  validateSignUpData,
+  validateEditInfoData,
+  validatePasswordInfoData,
+};
