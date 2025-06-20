@@ -9,16 +9,19 @@ const {
 } = require("../utils/validate");
 
 profileRouter.post("/profile/view", userAuth, async (req, res) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   try {
-    const { emailId, password } = req.body;
-    console.log(req.body);
-    const getUserDetails = await User.findOne({ emailId: emailId });
-    console.log(getUserDetails, "isThisOne");
-    if (!getUserDetails) {
-      console.log("it Came here");
-      throw new Error("Invalid Credentials");
-    }
+    // const { emailId, password } = req.body;
+    // console.log(req.body);
+    // const getUserDetails = await User.findOne({ emailId: emailId });
+    // console.log(getUserDetails, "isThisOne");
+    // if (!getUserDetails) {
+    //   console.log("it Came here");
+    //   throw new Error("Invalid Credentials");
+    // }
+    // if (getUserDetails.emailId.toString() !== emailId.toString()) {
+    //   throw new Error("Bad request");
+    // }
     const userExist = req.user;
     res.send(userExist);
   } catch (error) {
@@ -47,7 +50,7 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 profileRouter.patch("/profile/password", userAuth, async (req, res) => {
   try {
     const isEligibleForEdit = validatePasswordInfoData(req);
-    console.log("itsCameHere");
+    // console.log("itsCameHere");
     if (isEligibleForEdit) {
       console.log("came huhhuhu");
       const user = req.user;

@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.index({ emailId: 1 });
+userSchema.index({ emailId: 1, unique: true });
 
 userSchema.methods.getJWTToken = async function () {
   const user = this;

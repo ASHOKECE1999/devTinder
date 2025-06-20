@@ -28,3 +28,5 @@
 - grouped the routes based on requirement
 - work on userValidations and on ignored and interested
 - will create API for handling ignored and interested only
+
+- thought process of writing GET and POST apis
