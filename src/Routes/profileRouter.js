@@ -1,5 +1,6 @@
 const express = require("express");
 const userAuth = require("../middlewares/auth");
+const bcrypt = require("bcrypt");
 const profileRouter = express.Router();
 const User = require("../model/user");
 const {
@@ -50,8 +51,8 @@ profileRouter.patch("/profile/password", userAuth, async (req, res) => {
     if (isEligibleForEdit) {
       console.log("came huhhuhu");
       const user = req.user;
-      console.log(user, "hammayya", req.body["password"]);
-      user["password"] = req.body["password"];
+      const hashedPassword = await bcrypt.hash(req.body.password, 4);
+      user["password"] = hashedPassword;
       await user.save();
       res.json({
         message: `${user.lastName} Your Password Saved Successfully`,

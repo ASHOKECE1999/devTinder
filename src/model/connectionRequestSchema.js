@@ -23,6 +23,14 @@ const connectionRequestSchema = mongoose.Schema(
   }
 );
 
+connectionRequestSchema.pre("save", function (next) {
+  const currentUser = this;
+  if (currentUser.fromUserId.equals(currentUser.toUserId)) {
+    throw new Error("  Hey you are not allowed to send request to self!!! LOL");
+  }
+  next();
+});
+
 const ConnectRequestModel = new mongoose.model(
   "ConnectionRequest",
   connectionRequestSchema

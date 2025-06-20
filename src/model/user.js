@@ -54,6 +54,8 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.index({ emailId: 1 });
+
 userSchema.methods.getJWTToken = async function () {
   const user = this;
   const jwtTokenGeneration = await jwt.sign(

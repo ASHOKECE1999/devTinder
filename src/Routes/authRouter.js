@@ -24,6 +24,7 @@ authRouter.post("/signup", async (req, res) => {
     await user.save();
     res.send("userAddedSuccessFully");
   } catch (err) {
+    console.log(err);
     res.status(400).send("Bad Request on Saving User Data" + err.message);
   }
 });
