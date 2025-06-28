@@ -6,7 +6,7 @@ const User = require("../model/user");
 
 // get all the pending connection request for the loggedIn User
 
-const SAFE_DATA = ["firstName", "lastName", "about", "skills"];
+const SAFE_DATA = ["firstName", "lastName", "about", "skills", "profileUrl"];
 
 userRouter.get("/user/request/received", userAuth, async (req, res) => {
   try {
@@ -78,7 +78,7 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
       hindFromUserFeed.add(req.fromUserId);
       hindFromUserFeed.add(req.toUserId);
     });
-    console.log(hindFromUserFeed);
+    // console.log(hindFromUserFeed);
     const userFeed = await User.find({
       $and: [
         {
@@ -93,7 +93,7 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
         },
       ],
     }).select(SAFE_DATA);
-    console.log(userFeed, "userFeed");
+    // console.log(userFeed, "userFeed");
     res.send(userFeed);
   } catch (error) {
     res

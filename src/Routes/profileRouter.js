@@ -8,7 +8,7 @@ const {
   validatePasswordInfoData,
 } = require("../utils/validate");
 
-profileRouter.post("/profile/view", userAuth, async (req, res) => {
+profileRouter.get("/profile/view", userAuth, async (req, res) => {
   // console.log(req.cookies);
   try {
     // const { emailId, password } = req.body;

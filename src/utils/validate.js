@@ -40,7 +40,15 @@ const validateSignUpData = (req) => {
 };
 
 const validateEditInfoData = (req) => {
-  const allowedDataList = ["firstName", "lastName", "age", "gender", "skills"];
+  const allowedDataList = [
+    "firstName",
+    "lastName",
+    "age",
+    "gender",
+    "skills",
+    "about",
+    "profileUrl",
+  ];
   const isAllowed = Object.keys(req.body).every((key) =>
     allowedDataList.includes(key)
   );

@@ -46,12 +46,12 @@ authRouter.post("/login", async (req, res) => {
       const jwtTokenGeneration = await getUserDetails.getJWTToken();
       console.log(jwtTokenGeneration, "isItPrintHere");
       const token = res.cookie("jwtToken", jwtTokenGeneration);
-      res.send("Logged In SuccessFully");
+      res.send(getUserDetails);
     } else {
       res.status(400).send("Please Enter Valid Password");
     }
   } catch (error) {
-    res.send(error.message);
+    res.status(400).send(error.message);
   }
 });
 

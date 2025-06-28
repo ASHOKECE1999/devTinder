@@ -48,7 +48,17 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    profileUrl: {
+      type: String,
+      default:
+        "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?cs=srgb&dl=pexels-pixabay-415829.jpg&fm=jpg",
+    },
+    about: {
+      type: String,
+      default: "Hey I am a developer",
+    },
   },
+
   {
     timestamps: true,
   }

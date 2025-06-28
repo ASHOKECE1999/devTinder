@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const userAuth = require("./middlewares/auth");
+const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const connectDB = require("./config/database");
@@ -12,8 +13,15 @@ const userRouter = require("./Routes/userRouter");
 const requestRouter = require("./Routes/connectionRequest");
 
 const app = express();
+
 app.use(cookieParser());
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173/",
+    credentials: true,
+  })
+);
 
 app.use("/", authRouter);
 app.use("/", userRouter);
