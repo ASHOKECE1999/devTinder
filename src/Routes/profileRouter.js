@@ -25,7 +25,7 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
     const userExist = req.user;
     res.send(userExist);
   } catch (error) {
-    res.status(400).send("Bad Request  " + error.message);
+    res.status(401).send("Bad Request  " + error.message);
   }
 });
 
@@ -66,5 +66,5 @@ profileRouter.patch("/profile/password", userAuth, async (req, res) => {
     res.status(400).send("InValid Password Edit Request " + error.message);
   }
 });
-profileRouter.patch("/profile/edit", userAuth, (req, res) => {});
+
 module.exports = profileRouter;

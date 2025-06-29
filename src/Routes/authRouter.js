@@ -21,8 +21,11 @@ authRouter.post("/signup", async (req, res) => {
       skills,
     };
     const user = new User(userObj);
-    await user.save();
-    res.send("userAddedSuccessFully");
+    const signedUpUser = await user.save();
+    const jwtTokenGeneration = await signedUpUser.getJWTToken();
+    console.log(jwtTokenGeneration, "isItPrintHere");
+    const token = res.cookie("jwtToken", jwtTokenGeneration);
+    res.json({ message: "userAddedSuccessFully", data: signedUpUser });
   } catch (err) {
     console.log(err);
     res.status(400).send("Bad Request on Saving User Data" + err.message);
